@@ -1,50 +1,28 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import icon from '../../assets/icon.svg';
 import './App.css';
-
-function Hello() {
-  return (
-    <div>
-      <div className="Hello">
-        <img width="200" alt="icon" src={icon} />
-      </div>
-      <h1>electron-react-boilerplate</h1>
-      <div className="Hello">
-        <a
-          href="https://electron-react-boilerplate.js.org/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="books">
-              📚
-            </span>
-            Read our docs
-          </button>
-        </a>
-        <a
-          href="https://github.com/sponsors/electron-react-boilerplate"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="folded hands">
-              🙏
-            </span>
-            Donate
-          </button>
-        </a>
-      </div>
-    </div>
-  );
-}
+import { ChakraProvider } from '@chakra-ui/react';
+import Layout from './Layout';
+import { lazy } from 'react';
+import SearchPage from './pages/Search';
+const Home = lazy(() => import('./pages/Home'));
+import Anime from './pages/Anime';
+import AnimePlayerPage from './pages/AnimePlayer';
+// const Search = lazy(() => import('./pages/Search'));
 
 export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Hello />} />
-      </Routes>
-    </Router>
+    <ChakraProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="anime/:id" element={<Anime />} />
+            <Route path="anime/:id/watch" element={<AnimePlayerPage />} />
+          </Route>
+        </Routes>
+      </Router>
+    </ChakraProvider>
   );
 }

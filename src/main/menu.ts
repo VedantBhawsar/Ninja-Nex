@@ -117,13 +117,13 @@ export default class MenuBuilder {
             this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen());
           },
         },
-        {
-          label: 'Toggle Developer Tools',
-          accelerator: 'Alt+Command+I',
-          click: () => {
-            this.mainWindow.webContents.toggleDevTools();
-          },
-        },
+        // {
+        //   label: 'Toggle Developer Tools',
+        //   accelerator: 'Alt+Command+I',
+        //   click: () => {
+        //     this.mainWindow.webContents.toggleDevTools();
+        //   },
+        // },
       ],
     };
     const subMenuViewProd: MenuItemConstructorOptions = {
@@ -198,8 +198,11 @@ export default class MenuBuilder {
         label: '&File',
         submenu: [
           {
-            label: '&Open',
-            accelerator: 'Ctrl+O',
+            label: '&Reload',
+            accelerator: 'Ctrl+R',
+            click: () => {
+              this.mainWindow.webContents.reload();
+            },
           },
           {
             label: '&Close',
@@ -217,13 +220,6 @@ export default class MenuBuilder {
           process.env.DEBUG_PROD === 'true'
             ? [
                 {
-                  label: '&Reload',
-                  accelerator: 'Ctrl+R',
-                  click: () => {
-                    this.mainWindow.webContents.reload();
-                  },
-                },
-                {
                   label: 'Toggle &Full Screen',
                   accelerator: 'F11',
                   click: () => {
@@ -232,13 +228,13 @@ export default class MenuBuilder {
                     );
                   },
                 },
-                {
-                  label: 'Toggle &Developer Tools',
-                  accelerator: 'Alt+Ctrl+I',
-                  click: () => {
-                    this.mainWindow.webContents.toggleDevTools();
-                  },
-                },
+                // {
+                //   label: 'Toggle &Developer Tools',
+                //   accelerator: 'Alt+Ctrl+I',
+                //   click: () => {
+                //     this.mainWindow.webContents.toggleDevTools();
+                //   },
+                // },
               ]
             : [
                 {
