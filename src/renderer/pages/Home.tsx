@@ -102,7 +102,9 @@ const HomePage = () => {
             gap: '10px',
           }}
         >
-          <Heading fontSize={25} color="white">Recent Episode</Heading>
+          <Heading fontSize={25} color="white">
+            Recent Episode
+          </Heading>
           <Grid
             templateColumns={[
               'repeat(1, 1fr)',
@@ -143,7 +145,9 @@ const HomePage = () => {
             gap: '10px',
           }}
         >
-          <Heading fontSize={25} color="white">News</Heading>
+          <Heading fontSize={25} color="white">
+            News
+          </Heading>
           <Box display={['flex']} flexDir={'column'} gap={'10px'}>
             {news.slice(0, 11).map((news: any, index) => {
               return (
@@ -219,7 +223,9 @@ const HomePage = () => {
             gap: '10px',
           }}
         >
-          <Heading fontSize={25} color="white">Popular</Heading>
+          <Heading fontSize={25} color="white">
+            Popular
+          </Heading>
           <Grid
             templateColumns={[
               'repeat(1, 1fr)',
@@ -240,9 +246,9 @@ const HomePage = () => {
           </Grid>
         </Box>
         <Box
+          display={['none', 'none', 'none', 'flex']}
           style={{
             flex: 1,
-            display: 'flex',
             flexDirection: 'column',
             gap: '10px',
           }}
@@ -266,7 +272,9 @@ const HomePage = () => {
             gap: '10px',
           }}
         >
-          <Heading fontSize={25} color="white">Top Airing</Heading>
+          <Heading fontSize={25} color="white">
+            Top Airing
+          </Heading>
           <Grid
             templateColumns={[
               'repeat(1, 1fr)',
@@ -287,9 +295,9 @@ const HomePage = () => {
           </Grid>
         </Box>
         <Box
+          display={['none', 'none', 'none', 'flex']}
           style={{
             flex: 1,
-            display: 'flex',
             flexDirection: 'column',
             gap: '10px',
           }}
