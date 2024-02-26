@@ -80,7 +80,7 @@ const HomePage = () => {
         style={{
           display: 'none',
           inlineSize: '100vw',
-          height: '80vh',
+          blockSize: '80vh',
         }}
       >
         {/* <HomeCarousel /> */}
@@ -154,10 +154,10 @@ const HomePage = () => {
                 <a href={news?.url} target="_black">
                   <motion.div
                     initial={{
-                      opacity: 0,
+                      transform: 'scale(0.9)',
                     }}
                     whileInView={{
-                      opacity: 1,
+                      transform: 'scale(1)',
                     }}
                     transition={{
                       duration: 0.4,

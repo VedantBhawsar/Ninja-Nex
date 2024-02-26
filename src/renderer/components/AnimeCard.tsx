@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 export const AnimeCard = ({ data }: any) => {
-  console.log(data);
   return (
     <Link
       to={
@@ -15,7 +14,7 @@ export const AnimeCard = ({ data }: any) => {
     >
       <motion.div
         initial={{
-          opacity: 0,
+          opacity: 0.4,
         }}
         whileInView={{
           opacity: 1,
@@ -24,6 +23,9 @@ export const AnimeCard = ({ data }: any) => {
           duration: 0.4,
           delay: 0.1,
         }}
+        style={{
+          position: 'relative',
+        }}
       >
         <Card
           style={{
@@ -31,10 +33,14 @@ export const AnimeCard = ({ data }: any) => {
             justifyContent: 'center',
             alignItems: 'center',
             gap: '10px',
+            color: 'white',
           }}
           _hover={{
-            backgroundColor: 'gray.100',
-            transition: '0.3s linear',
+            backgroundColor: 'gray.300',
+            transition: '0.1s linear',
+          }}
+          _active={{
+            transform: 'scale(0.98)',
           }}
           padding={3}
         >
@@ -45,7 +51,12 @@ export const AnimeCard = ({ data }: any) => {
             height={'70%'}
             src={data?.image}
           />
-          <Heading fontSize={'md'} textAlign={'start'} fontWeight={600}>
+          <Heading
+            fontSize={'md'}
+            textAlign={'start'}
+            fontWeight={600}
+            color={'black'}
+          >
             {data?.title}
           </Heading>
           <Box
@@ -54,7 +65,7 @@ export const AnimeCard = ({ data }: any) => {
             w={'full'}
             justifyContent={'space-between'}
           >
-            <Text fontSize={'sm'} fontWeight={500} color={'gray.600'}>
+            <Text fontSize={'sm'} fontWeight={500}>
               {data?.releaseDate}
             </Text>
             <Text

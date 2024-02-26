@@ -52,14 +52,14 @@ const AnimePlayerPage = () => {
     }
     fetchAnime();
     fetchSources();
-  }, []);
+  }, [id]);
 
   return (
-    <Box h={'fit-content'}
-    style={{
-      backgroundColor:"#1A202C"
-    }}
-    
+    <Box
+      h={'fit-content'}
+      style={{
+        backgroundColor: '#1A202C',
+      }}
     >
       <Box position={'relative'} zIndex={999}>
         <Link to={`/anime/${data.id}`}>
@@ -101,7 +101,7 @@ const AnimePlayerPage = () => {
           </Box>
         </Box>
         <Box display={'flex'} flexDirection={'column'} p={10} gap={'15px'}>
-          <Heading fontSize={'lg'}>
+          <Heading fontSize={'lg'} color={'white'}>
             Sources{' '}
             <span
               style={{
@@ -126,7 +126,9 @@ const AnimePlayerPage = () => {
           </Box>
         </Box>
         <Box display={'flex'} flexDirection={'column'} p={10} gap={'15px'}>
-          <Heading fontSize={'lg'}>Episodes</Heading>
+          <Heading fontSize={'lg'} color={'white'}>
+            Episodes
+          </Heading>
           <Box display={'flex'} gap={'10px'} flexWrap={'wrap'}>
             {data?.episodes?.map((ep: any, index: number) => {
               return (
@@ -138,6 +140,7 @@ const AnimePlayerPage = () => {
               );
             })}
           </Box>
+          <Button onClick={() => exec('vlc')} w={'fit-content'}>Open in VlC</Button>
         </Box>
       </Box>
     </Box>
