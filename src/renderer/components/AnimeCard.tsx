@@ -1,9 +1,26 @@
-import React from 'react';
-import { Box, Card, Heading, Image, Text } from '@chakra-ui/react';
+import React, { useEffect } from 'react';
+import { Box, Card, Heading, Image, Skeleton, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
-export const AnimeCard = ({ data }: any) => {
+export function AnimeCard({ data, search = false }: any) {
+  const [animeData, setAnimeData] = React.useState<any>({});
+  useEffect(() => {
+    async function fetchDetails() {
+      try {
+        const animeDetails = await axios.get(
+          `http://localhost:3001/tmdb?query=${data.title}`,
+        );
+        setAnimeData(animeDetails.data.data);
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    }
+    if (search) {
+      fetchDetails();
+    }
+  }, []);
   return (
     <Link
       to={
@@ -45,42 +62,51 @@ export const AnimeCard = ({ data }: any) => {
           padding={3}
         >
           <Image
-            borderRadius={'10px'}
-            width={'100%'}
-            objectFit={'cover'}
-            height={'70%'}
+            borderRadius="10px"
+            width="100%"
+            objectFit="cover"
+            height="70%"
             src={data?.image}
           />
           <Heading
-            fontSize={'md'}
-            textAlign={'start'}
+            fontSize="sm"
+            textAlign="center"
             fontWeight={600}
-            color={'black'}
+            color="black"
           >
-            {data?.title}
+            {animeData.title ?? data?.title}
           </Heading>
           <Box
-            display={'flex'}
-            gap={'10px'}
-            w={'full'}
-            justifyContent={'space-between'}
+            display="flex"
+            gap="10px"
+            w="full"
+            justifyContent="space-between"
           >
-            <Text fontSize={'sm'} fontWeight={500}>
-              {data?.releaseDate}
-            </Text>
-            <Text
-              fontSize={'sm'}
-              color={'gray.600'}
-              backgroundColor={'red.200'}
-              p={'0px 10px'}
-              borderRadius={'10px'}
-              fontWeight={500}
-            >
-              {data?.subOrDub}
-            </Text>
+            {data?.releaseDate && (
+              <Text fontSize="x-small" fontWeight={500} color="black">
+                {data?.releaseDate}
+              </Text>
+            )}
+            {data?.episodeNumber && (
+              <Text fontSize={'x-small'} fontWeight={500} color={'black'}>
+                Episodes: {data?.episodeNumber}
+              </Text>
+            )}
+            {data?.subOrDub && (
+              <Text
+                fontSize="x-small"
+                color="gray.600"
+                backgroundColor="red.200"
+                p="0px 10px"
+                borderRadius="10px"
+                fontWeight={500}
+              >
+                {data?.subOrDub}
+              </Text>
+            )}
           </Box>
         </Card>
       </motion.div>
     </Link>
   );
-};
+}
