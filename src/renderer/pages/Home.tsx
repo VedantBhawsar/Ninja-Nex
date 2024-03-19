@@ -65,9 +65,9 @@ const HomePage = () => {
       } catch (error: any) {
         console.log(error.message);
       } finally {
-        setLoading(false);
       }
     }
+    setLoading(false);
     fetchNews();
     fetchPopular();
     fetchTopAiring();

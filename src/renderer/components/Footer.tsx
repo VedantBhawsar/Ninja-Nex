@@ -29,7 +29,7 @@ export const Footer = () => {
       >
         <Tooltip label="Github" aria-label="A tooltip">
           <Link to="https://github.com/Dovakiin0/Kitsune" target="_blank">
-            <FaGithub size={25} color='white' />
+            <FaGithub size={25} color="white" />
           </Link>
         </Tooltip>
       </Box>
@@ -42,7 +42,7 @@ export const Footer = () => {
           gap: '5px',
         }}
       >
-        <Text fontSize={14} color={'gray.500'}>
+        <Text fontSize={14} color={'gray.500'} textAlign={'center'}>
           NinjaNex does not store any files on our server, we only linked to the
           media which is hosted on 3rd party services.
         </Text>

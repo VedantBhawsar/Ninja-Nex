@@ -9,6 +9,9 @@ import {
   useNavigation,
   useParams,
 } from 'react-router-dom';
+import { VideoPlayer } from '../components/VideoPlayer';
+import Hls from 'hls.js';
+import { title } from 'process';
 
 // In this page the video will be played
 const AnimePlayerPage = () => {
@@ -16,34 +19,27 @@ const AnimePlayerPage = () => {
   const animeId = id?.split('-episode')[0];
   const [data, setData] = React.useState<any>({});
   const [loading, setLoading] = React.useState<boolean>(true);
-  const [sources, setSources] = React.useState<
-    {
-      name: string;
-      url: string;
-    }[]
-  >([
-    {
-      name: '',
-      url: '',
-    },
-  ]);
+  const [sources, setSources] = React.useState<any>({});
   const [url, setUrl] = React.useState<string>('');
+  const [epSource, setEpSource] = React.useState<any | null>(null);
+  const downloadUrl: string = epSource?.download ?? '';
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
     async function fetchSources() {
       try {
         const { data } = await axios.get(
-          `http://localhost:3001/anime/servers/${id}`,
+          `http://localhost:3001/anime/sources/${id}`,
         );
-        setUrl(data[2].url);
-        setSources(data);
+        setEpSource(data.episode);
       } catch (error: any) {
         console.log(error.message);
       } finally {
         setLoading(false);
       }
     }
+
     async function fetchAnime() {
       try {
         const { data } = await axios.get(
@@ -106,7 +102,7 @@ const AnimePlayerPage = () => {
               alignItems={'center'}
               p={5}
             >
-              <Box w={'90vw'} h={'100vh'}>
+              {/* <Box w={'90vw'} h={'100vh'} display={'none'}>
                 <iframe
                   src={url ?? sources[0].url}
                   width="100%"
@@ -116,6 +112,90 @@ const AnimePlayerPage = () => {
                   allowFullScreen
                   allow="autoplay"
                 ></iframe>
+              </Box> */}
+              <Box width={'90vw'} height={'100vh'}>
+                <VideoPlayer
+                  id={id}
+                  option={{
+                    url: epSource?.sources.filter(
+                      (source: any) => source.quality === 'default',
+                    )[0].url,
+                    volume: 1,
+                    customType: {
+                      m3u8: function (video: any, url: string, art: any) {
+                        if (Hls.isSupported()) {
+                          if (art.hls) art.hls.destroy();
+                          const hls = new Hls();
+                          hls.loadSource(url);
+                          hls.attachMedia(video);
+                          art.hls = hls;
+                          art.on('destroy', () => hls.destroy());
+                        } else if (
+                          video.canPlayType('application/vnd.apple.mpegurl')
+                        ) {
+                          video.src = url;
+                        } else {
+                          art.notice.show = 'Unsupported playback format';
+                        }
+                      },
+                    },
+                    title: 'vednat',
+                    subtitle: {
+                      url:
+                        typeof epSource?.subtitles !== 'undefined'
+                          ? epSource?.subtitles.find(
+                              (sub: any) => sub.lang === 'English',
+                            )?.url
+                          : '',
+                      type: 'vtt',
+                      style: {
+                        color: '#fff',
+                      },
+                      encoding: 'utf-8',
+                    },
+                    quality: epSource
+                      ? epSource?.sources?.map((source: any) => ({
+                          default: source?.quality === 'default',
+                          html: source?.quality,
+                          url: source?.url,
+                        }))
+                      : [],
+                    isLive: false,
+                    muted: false,
+                    autoOrientation: true,
+                    pip: true,
+                    fullscreenWeb: true,
+                    screenshot: true,
+                    setting: true,
+                    loop: false,
+
+                    flip: true,
+                    playbackRate: true,
+                    aspectRatio: true,
+                    autoplay: true,
+                    autoSize: false,
+                    autoMini: true,
+                    miniProgressBar: false,
+                    mutex: true,
+                    backdrop: true,
+                    playsInline: true,
+                    autoPlayback: true,
+                    airplay: true,
+                    fullscreen: true,
+                    subtitleOffset: false,
+                    theme: '#F5316F',
+                    whitelist: ['*'],
+                    moreVideoAttr: {
+                      crossOrigin: 'anonymous',
+                    },
+                  }}
+                  style={{
+                    width: '100%',
+                    height: '90%',
+                    margin: '60px auto 0',
+                  }}
+                  getInstance={(art: any) => console.info(art)}
+                />
               </Box>
             </Box>
             <Box display={'flex'} flexDirection={'column'} p={10} gap={'15px'}>
@@ -132,15 +212,11 @@ const AnimePlayerPage = () => {
                 </span>
               </Heading>
               <Box display={'flex'} gap={'10px'} flexWrap={'wrap'}>
-                {sources.map((source) => (
-                  <Button
-                    borderRadius={'8px'}
-                    size={'sm'}
-                    onClick={() => setUrl(source.url)}
-                  >
-                    {source.name}
+                <a href={downloadUrl} target="_blank">
+                  <Button padding={2} borderRadius={'8px'}>
+                    Download
                   </Button>
-                ))}
+                </a>
               </Box>
             </Box>
             <Box display={'flex'} flexDirection={'column'} p={10} gap={'15px'}>

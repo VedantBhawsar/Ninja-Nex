@@ -21,6 +21,7 @@ export function AnimeCard({ data, search = false }: any) {
       fetchDetails();
     }
   }, []);
+
   return (
     <Link
       to={
