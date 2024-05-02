@@ -15,17 +15,15 @@ const SearchPage = () => {
   const [filter, setFilter] = React.useState<string>('');
   const inputRef = React.useRef<HTMLInputElement>(null);
 
-  const prem = loading ? ('vedant' ? !loading : 'dipraj') : 'nehali';
-
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     window.scrollTo(0, 0);
 
     async function fetch() {
-      setLoading(true);
       try {
         const { data } = await axios.get(`${API_URL}/anime/search?s=${slug}`);
         setData(data);
@@ -105,11 +103,7 @@ const SearchPage = () => {
             width: '100%',
             height: '300px',
           }}
-        /> ? (
-          data.length === 0
-        ) : (
-          <Text color={'gray.400'}>no result found</Text>
-        )
+        />
       ) : (
         <Flex gap={4} flexWrap={'wrap'}>
           {data

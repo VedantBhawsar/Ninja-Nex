@@ -19,6 +19,7 @@ import LoadingPage from './Loading';
 import toast from 'react-hot-toast';
 import ErrorPage from './Error';
 import { useNavigate } from 'react-router-dom';
+import { HeroSection } from '../components/Hero';
 
 const HomePage = () => {
   const [loading, setLoading] = React.useState<boolean>(true);
@@ -99,6 +100,7 @@ const HomePage = () => {
         backgroundColor: '#1A202C',
       }}
     >
+      <HeroSection />
       <Box
         style={{
           display: 'none',
