@@ -3,6 +3,8 @@ import { Box, Card, Heading, Image, Skeleton, Text } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { API_URL } from '../constants';
+import toast from 'react-hot-toast';
 
 export function AnimeCard({ data, search = false }: any) {
   const [animeData, setAnimeData] = React.useState<any>({});
@@ -10,15 +12,13 @@ export function AnimeCard({ data, search = false }: any) {
     async function fetchDetails() {
       try {
         const animeDetails = await axios.get(
-          `http://localhost:3001/tmdb?query=${data.title}`,
+          `${API_URL}/tmdb?query=${data.title}`,
         );
+        toast.error('Error while fetching data');
         setAnimeData(animeDetails.data.data);
       } catch (error: any) {
         console.log(error.message);
       }
-    }
-    if (search) {
-      fetchDetails();
     }
   }, []);
 
@@ -31,16 +31,6 @@ export function AnimeCard({ data, search = false }: any) {
       }
     >
       <motion.div
-        initial={{
-          opacity: 0.4,
-        }}
-        whileInView={{
-          opacity: 1,
-        }}
-        transition={{
-          duration: 0.4,
-          delay: 0.1,
-        }}
         style={{
           position: 'relative',
         }}
@@ -52,31 +42,36 @@ export function AnimeCard({ data, search = false }: any) {
             alignItems: 'center',
             gap: '10px',
             color: 'white',
+            width: '280px',
+            minHeight: '400px',
+            minWidth: '250px',
           }}
-          _hover={{
-            backgroundColor: 'gray.300',
-            transition: '0.1s linear',
-          }}
-          _active={{
-            transform: 'scale(0.98)',
-          }}
-          padding={3}
+          padding={2}
         >
           <Image
             borderRadius="10px"
-            width="100%"
+            width="3000px"
             objectFit="cover"
-            height="70%"
+            height="400px"
             src={data?.image}
           />
-          <Heading
-            fontSize="sm"
-            textAlign="center"
-            fontWeight={600}
-            color="black"
-          >
-            {animeData.title ?? data?.title}
-          </Heading>
+          <Box display={'flex'} justifyContent={'flex-start'} width={'100%'}>
+            <Heading
+              fontSize="sm"
+              textAlign="start"
+              fontWeight={600}
+              color="black"
+              className="text-red-500"
+              style={{
+                overflow: 'hidden',
+                display: '-webkit-box',
+                WebkitBoxOrient: 'vertical',
+                WebkitLineClamp: 1,
+              }}
+            >
+              {animeData.title ?? data?.title}
+            </Heading>
+          </Box>
           <Box
             display="flex"
             gap="10px"

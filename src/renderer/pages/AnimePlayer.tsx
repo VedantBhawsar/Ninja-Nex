@@ -12,6 +12,7 @@ import {
 import { VideoPlayer } from '../components/VideoPlayer';
 import Hls from 'hls.js';
 import { title } from 'process';
+import { API_URL } from '../constants';
 
 // In this page the video will be played
 const AnimePlayerPage = () => {
@@ -24,14 +25,11 @@ const AnimePlayerPage = () => {
   const [epSource, setEpSource] = React.useState<any | null>(null);
   const downloadUrl: string = epSource?.download ?? '';
 
-
   useEffect(() => {
     window.scrollTo(0, 0);
     async function fetchSources() {
       try {
-        const { data } = await axios.get(
-          `http://localhost:3001/anime/sources/${id}`,
-        );
+        const { data } = await axios.get(`${API_URL}/anime/sources/${id}`);
         setEpSource(data.episode);
       } catch (error: any) {
         console.log(error.message);
@@ -42,9 +40,7 @@ const AnimePlayerPage = () => {
 
     async function fetchAnime() {
       try {
-        const { data } = await axios.get(
-          `http://localhost:3001/anime/fetch/${animeId}`,
-        );
+        const { data } = await axios.get(`${API_URL}/anime/fetch/${animeId}`);
         setData(data);
       } catch (error: any) {
         console.log(error.message);
@@ -53,6 +49,8 @@ const AnimePlayerPage = () => {
     fetchAnime();
     fetchSources();
   }, [id]);
+
+  console.log(data);
 
   return (
     <>
@@ -227,7 +225,17 @@ const AnimePlayerPage = () => {
                 {data?.episodes?.map((ep: any, index: number) => {
                   return (
                     <Link key={index} to={`/anime/${ep.id}/watch`}>
-                      <Button padding={2} borderRadius={'8px'}>
+                      <Button
+                        padding={2}
+                        borderRadius={'8px'}
+                        backgroundColor={'gray.600'}
+                        color={'gray.100'}
+                        boxShadow={'1px 1px 5px #010'}
+                        _hover={{
+                          backgroundColor: 'gray.700',
+                          color: 'gray.100',
+                        }}
+                      >
                         {ep.number}
                       </Button>
                     </Link>

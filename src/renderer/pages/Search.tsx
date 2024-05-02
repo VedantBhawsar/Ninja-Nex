@@ -1,10 +1,11 @@
-import { Box, Grid, Input, Select } from '@chakra-ui/react';
+import { Box, Flex, Grid, Input, Select, Text } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import { AnimeCard } from '../components/AnimeCard';
 import axios from 'axios';
 import Lottie from 'lottie-react';
 import searchAnimation from '../assets/searchAnimation.json';
 import { motion } from 'framer-motion';
+import { API_URL } from '../constants';
 
 // This is search page whre your find anime and mangas
 const SearchPage = () => {
@@ -12,16 +13,21 @@ const SearchPage = () => {
   const [data, setData] = React.useState<any>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [filter, setFilter] = React.useState<string>('');
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  const prem = loading ? ('vedant' ? !loading : 'dipraj') : 'nehali';
 
   useEffect(() => {
-    setLoading(true);
+    inputRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
     window.scrollTo(0, 0);
 
     async function fetch() {
+      setLoading(true);
       try {
-        const { data } = await axios.get(
-          `http://localhost:3001/anime/search?s=${slug}`,
-        );
+        const { data } = await axios.get(`${API_URL}/anime/search?s=${slug}`);
         setData(data);
       } catch (error: any) {
         console.log(error.message);
@@ -35,7 +41,7 @@ const SearchPage = () => {
       } else {
         setData([]);
       }
-    }, 500);
+    }, 600);
 
     return () => clearTimeout(delayDebounceFn);
   }, [slug]);
@@ -53,6 +59,7 @@ const SearchPage = () => {
     >
       <Box display={'flex'} gap={'15px'}>
         <Input
+          ref={inputRef}
           placeholder="Search"
           variant={'outline'}
           value={slug}
@@ -86,6 +93,11 @@ const SearchPage = () => {
           </option>
         </Select>
       </Box>
+      {data.length === 0 && !loading && (
+        <Box padding={'40px'}>
+          <Text color={'white'}>No result found</Text>
+        </Box>
+      )}
       {loading ? (
         <Lottie
           animationData={searchAnimation}
@@ -93,26 +105,21 @@ const SearchPage = () => {
             width: '100%',
             height: '300px',
           }}
-        />
+        /> ? (
+          data.length === 0
+        ) : (
+          <Text color={'gray.400'}>no result found</Text>
+        )
       ) : (
-        <Grid
-          templateColumns={[
-            'repeat(1, 1fr)',
-            'repeat(3, 1fr)',
-            'repeat(5, 1fr)',
-            'repeat(5, 1fr)',
-            'repeat(5, 1fr)',
-          ]}
-          gap={4}
-        >
+        <Flex gap={4} flexWrap={'wrap'}>
           {data
             .filter((data: any) =>
               filter === '' ? data : data?.subOrDub === filter,
             )
             .map((data: any, index: number) => {
-              return <AnimeCard key={index} data={data} search={true} />;
+              return <AnimeCard key={index} data={data} search={false} />;
             })}
-        </Grid>
+        </Flex>
       )}
     </Box>
   );

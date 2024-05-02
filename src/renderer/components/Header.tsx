@@ -8,9 +8,10 @@ import logo from '../assets/logo.png';
 export const Header = () => {
   return (
     <Flex
-      padding={['5px 25px']}
+      padding={['0px 15px']}
       zIndex={999}
       style={{
+        paddingTop:"15px",
         backgroundColor: '#1A202C',
         color: 'white',
         justifyContent: 'space-between',

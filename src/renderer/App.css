@@ -3,6 +3,10 @@
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
 
- ::-webkit-scrollbar{
-    width: 0px;
- }
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
