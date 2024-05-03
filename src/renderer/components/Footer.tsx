@@ -1,10 +1,7 @@
-import { Box, Flex, Heading, Text, Tooltip } from '@chakra-ui/react';
-import React from 'react';
-import { FaGithub, FaDiscord } from 'react-icons/fa';
+import { Box, Flex, Text, Tooltip } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { FiGithub } from 'react-icons/fi';
-import logo from '../assets/logo.png';
 
 export const Footer = () => {
   return (
