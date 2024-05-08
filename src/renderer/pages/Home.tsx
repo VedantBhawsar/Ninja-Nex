@@ -1,23 +1,18 @@
 import {
   Box,
   Card,
-  Flex,
   Grid,
-  GridItem,
   Heading,
   Image,
   Text,
 } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
 import React, { useEffect } from 'react';
-import { Spinner } from '@chakra-ui/react';
 import 'swiper/css';
 import { AnimeCard } from '../components/AnimeCard';
 import axios from 'axios';
 import { API_URL } from '../constants';
 import LoadingPage from './Loading';
 import toast from 'react-hot-toast';
-import ErrorPage from './Error';
 import { useNavigate } from 'react-router-dom';
 import { HeroSection } from '../components/Hero';
 
@@ -37,7 +32,7 @@ const HomePage = () => {
       try {
         await axios
           .get(`${API_URL}/news/fetch`)
-          .then((res) => setNews(res.data))
+          .then((res) => setNews(res.data.news))
           .catch((err) => new Error('Error while featching Data'));
       } catch (error: any) {
         console.log(error.message);
@@ -50,7 +45,7 @@ const HomePage = () => {
           .get(`${API_URL}/anime/recent`, {
             timeout: 5000,
           })
-          .then((res) => setRecentAnime(res.data))
+          .then((res) => setRecentAnime(res.data.recentAnime))
           .catch((err) => {
             new Error('Error while featching Data');
             setIsError(true);
@@ -59,7 +54,7 @@ const HomePage = () => {
           .get(`${API_URL}/anime/popular`, {
             timeout: 5000,
           })
-          .then((res) => setPopularAnime(res.data))
+          .then((res) => setPopularAnime(res.data.popularAnime))
           .catch((err) => {
             new Error('Error while featching Data');
             setIsError(true);
@@ -68,7 +63,7 @@ const HomePage = () => {
           .get(`${API_URL}/anime/top-airing`, {
             timeout: 8000,
           })
-          .then((res) => setAiringAnime(res.data))
+          .then((res) => setAiringAnime(res.data.topAiring))
           .catch((err) => {
             setIsError(true);
             new Error('Error while featching Data');
@@ -118,6 +113,7 @@ const HomePage = () => {
         }}
       >
         <Box
+          id="recent"
           style={{
             flex: 3,
             display: 'flex',
@@ -128,11 +124,16 @@ const HomePage = () => {
           <Heading fontSize={25} color="white">
             Recent Episode
           </Heading>
-          <Flex wrap={'wrap'} gap={4} borderRight={'1px solid gray'}>
-            {recentAnime.slice(0, 10).map((data, index) => {
+          <Grid
+            paddingRight={5}
+            templateColumns="repeat(3, 1fr)"
+            gap={6}
+            borderRight={'1px solid gray'}
+          >
+            {recentAnime?.map((data, index) => {
               return <AnimeCard data={data} />;
             })}
-          </Flex>
+          </Grid>
         </Box>
         <Box
           display={['none', 'none', 'none', 'flex']}
@@ -153,7 +154,7 @@ const HomePage = () => {
             gap={'10px'}
             flexWrap={'wrap'}
           >
-            {news.slice(0, 11).map((news: any, index) => {
+            {news?.map((news: any, index) => {
               return (
                 <a href={news?.url} key={index} target="_black">
                   <div>
@@ -219,11 +220,16 @@ const HomePage = () => {
           <Heading fontSize={25} color="white">
             Popular
           </Heading>
-          <Flex wrap={'wrap'} gap={4} borderRight={'1px solid gray'}>
+          <Grid
+            paddingRight={5}
+            templateColumns="repeat(3, 1fr)"
+            gap={6}
+            borderRight={'1px solid gray'}
+          >
             {popularAnime.map((popular, index) => {
               return <AnimeCard data={popular} />;
             })}
-          </Flex>
+          </Grid>
         </Box>
         <Box
           display={['none', 'none', 'none', 'flex']}
@@ -255,11 +261,16 @@ const HomePage = () => {
           <Heading fontSize={25} color="white">
             Top Airing
           </Heading>
-          <Flex wrap={'wrap'} gap={4} borderRight={'1px solid gray'}>
+          <Grid
+            paddingRight={5}
+            templateColumns="repeat(3, 1fr)"
+            gap={6}
+            borderRight={'1px solid gray'}
+          >
             {airingAnime.map((airing, index) => {
               return <AnimeCard data={airing} />;
             })}
-          </Flex>
+          </Grid>
         </Box>
         <Box
           display={['none', 'none', 'none', 'flex']}

@@ -13,9 +13,9 @@ export const Footer = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: '20px',
+        paddingTop: '20px',
         gap: '10px',
-        "borderTop": '1px solid #e2e8f0',
+        borderTop: '1px solid #e2e8f0',
         backgroundColor: '#1A202C',
       }}
     >
@@ -33,20 +33,39 @@ export const Footer = () => {
       </Flex>
       <Box
         style={{
+          width: '100%',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '5px',
+          gap: '10px',
         }}
       >
-        <Text fontSize={14} color={'gray.500'} textAlign={'center'}>
+        <Text fontSize={14} color={'gray.500'} textAlign={'center'} >
           NinjaNex does not store any files on our server, we only linked to the
           media which is hosted on 3rd party services.
         </Text>
-        <Text fontSize={14} color={'gray.500'}>
-          © NinjaNex-2024. All rights reserved.
-        </Text>
+        <Flex
+          width={'100%'}
+          justifyContent={'space-between'}
+          borderTop={'0.5px solid #2D3748 '}
+          padding={3}
+        >
+          <Text fontSize={14} color={'gray.500'}>
+            © NinjaNex-2024. All rights reserved.
+          </Text>
+          <Link to={'/terms-and-conditions'}>
+            <Text
+              fontSize={14}
+              color={'gray.500'}
+              _hover={{
+                textDecor: 'underline',
+              }}
+            >
+              Terms and Conditions
+            </Text>
+          </Link>
+        </Flex>
       </Box>
     </Box>
   );

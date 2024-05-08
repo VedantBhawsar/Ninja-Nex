@@ -2,20 +2,14 @@ import { Box, Button, Heading, IconButton, Spinner } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { BiArrowBack } from 'react-icons/bi';
-import {
-  Link,
-  Navigate,
-  useNavigate,
-  useNavigation,
-  useParams,
-} from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { VideoPlayer } from '../components/VideoPlayer';
 import Hls from 'hls.js';
-import { title } from 'process';
 import { API_URL } from '../constants';
 
 // In this page the video will be played
 const AnimePlayerPage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const animeId = id?.split('-episode')[0];
   const [data, setData] = React.useState<any>({});
@@ -23,6 +17,7 @@ const AnimePlayerPage = () => {
   const [sources, setSources] = React.useState<any>({});
   const [url, setUrl] = React.useState<string>('');
   const [epSource, setEpSource] = React.useState<any | null>(null);
+  const [isError, setIsError] = React.useState<boolean>(false);
   const downloadUrl: string = epSource?.download ?? '';
 
   useEffect(() => {
@@ -33,6 +28,7 @@ const AnimePlayerPage = () => {
         setEpSource(data.episode);
       } catch (error: any) {
         console.log(error.message);
+        setIsError(true);
       } finally {
         setLoading(false);
       }
@@ -44,13 +40,17 @@ const AnimePlayerPage = () => {
         setData(data);
       } catch (error: any) {
         console.log(error.message);
+        setIsError(true);
       }
     }
     fetchAnime();
     fetchSources();
   }, [id]);
 
-  console.log(data);
+  if (isError) {
+    navigate('/error');
+    return;
+  }
 
   return (
     <>
@@ -99,7 +99,12 @@ const AnimePlayerPage = () => {
               justifyContent={'center'}
               alignItems={'center'}
               p={5}
+              padding={50}
             >
+              <Heading color={'white'} fontSize={20}>
+                {id}
+              </Heading>
+
               {/* <Box w={'90vw'} h={'100vh'} display={'none'}>
                 <iframe
                   src={url ?? sources[0].url}
@@ -166,14 +171,13 @@ const AnimePlayerPage = () => {
                     screenshot: true,
                     setting: true,
                     loop: false,
-
                     flip: true,
                     playbackRate: true,
                     aspectRatio: true,
                     autoplay: true,
-                    autoSize: false,
+                    autoSize: true,
                     autoMini: true,
-                    miniProgressBar: false,
+                    miniProgressBar: true,
                     mutex: true,
                     backdrop: true,
                     playsInline: true,
@@ -190,7 +194,7 @@ const AnimePlayerPage = () => {
                   style={{
                     width: '100%',
                     height: '90%',
-                    margin: '60px auto 0',
+                    margin: '30px auto 0',
                   }}
                   getInstance={(art: any) => console.info(art)}
                 />
@@ -211,9 +215,7 @@ const AnimePlayerPage = () => {
               </Heading>
               <Box display={'flex'} gap={'10px'} flexWrap={'wrap'}>
                 <a href={downloadUrl} target="_blank">
-                  <Button padding={2} borderRadius={'8px'}>
-                    Download
-                  </Button>
+                  <Button colorScheme="red">Download</Button>
                 </a>
               </Box>
             </Box>
@@ -222,25 +224,27 @@ const AnimePlayerPage = () => {
                 Episodes
               </Heading>
               <Box display={'flex'} gap={'10px'} flexWrap={'wrap'}>
-                {data?.episodes?.map((ep: any, index: number) => {
-                  return (
-                    <Link key={index} to={`/anime/${ep.id}/watch`}>
-                      <Button
-                        padding={2}
-                        borderRadius={'8px'}
-                        backgroundColor={'gray.600'}
-                        color={'gray.100'}
-                        boxShadow={'1px 1px 5px #010'}
-                        _hover={{
-                          backgroundColor: 'gray.700',
-                          color: 'gray.100',
-                        }}
-                      >
-                        {ep.number}
-                      </Button>
-                    </Link>
-                  );
-                })}
+                {data?.episodes
+                  ?.sort((a: any, b: any) => a.number - b.number)
+                  .map((ep: any, index: number) => {
+                    return (
+                      <Link key={index} to={`/anime/${ep.id}/watch`}>
+                        <Button
+                          padding={2}
+                          borderRadius={'8px'}
+                          backgroundColor={'gray.600'}
+                          color={'gray.100'}
+                          boxShadow={'1px 1px 5px #010'}
+                          _hover={{
+                            backgroundColor: 'gray.700',
+                            color: 'gray.100',
+                          }}
+                        >
+                          {ep.number}
+                        </Button>
+                      </Link>
+                    );
+                  })}
               </Box>
               {/* <Buttonnpm i lottie-react onClick={() => exec('vlc')} w={'fit-content'}>Open in VlC</Buttonnpm> */}
             </Box>

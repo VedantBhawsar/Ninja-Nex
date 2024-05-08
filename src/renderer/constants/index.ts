@@ -1,4 +1,4 @@
-const production = true;
+const production = false;
 
 export const API_URL = production
   ? 'https://backend1-dv9d.onrender.com'

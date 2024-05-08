@@ -4,14 +4,13 @@ import { BiSearch } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
-
 export const Header = () => {
   return (
     <Flex
       padding={['0px 15px']}
       zIndex={999}
       style={{
-        paddingTop:"15px",
+        paddingTop: '15px',
         backgroundColor: '#1A202C',
         color: 'white',
         justifyContent: 'space-between',
@@ -41,12 +40,36 @@ export const Header = () => {
             alt="icon"
             style={{ inlineSize: '50px', blockSize: '50px' }}
           />
-          <Heading size={'20'} color={'white'} >
+          <Heading size={'20'} color={'white'}>
             NinjaNex
           </Heading>
         </Box>
       </Link>
-      <Box>
+      <Flex alignItems={'center'} gap={2}>
+        <Link to={'/recent'}>
+          <Text
+            color={'white'}
+            fontSize={'small'}
+            _hover={{
+              textDecor: 'underline',
+            }}
+          >
+            {' '}
+            Recent
+          </Text>
+        </Link>
+        <Link to={'/popular'}>
+          <Text
+            color={'white'}
+            fontSize={'small'}
+            _hover={{
+              textDecor: 'underline',
+            }}
+          >
+            {' '}
+            Popular
+          </Text>
+        </Link>
         <Link to={'/search'}>
           <IconButton
             colorScheme="white"
@@ -66,7 +89,7 @@ export const Header = () => {
             }}
           />
         </Link>
-      </Box>
+      </Flex>
     </Flex>
   );
 };

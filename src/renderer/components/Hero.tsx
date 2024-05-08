@@ -50,7 +50,7 @@ export function HeroSection() {
         >
           <span
             style={{
-              color: 'red',
+              color: '#E53E3E',
             }}
           >
             Explore
@@ -78,17 +78,18 @@ export function HeroSection() {
           anime transport you to new realms of excitement and wonder!
         </Text>
         <Flex>
-          <Button
-            onClick={() => window.scrollTo(0, 900)}
-            paddingY={6}
-            borderRadius={'10px'}
-            colorScheme="yellow"
-            width={['200px']}
-            marginLeft={3}
-            marginTop={10}
-          >
-            Explore More
-          </Button>
+          <a href="#recent">
+            <Button
+              paddingY={6}
+              borderRadius={'10px'}
+              colorScheme="yellow"
+              width={['200px']}
+              marginLeft={3}
+              marginTop={10}
+            >
+              Explore More
+            </Button>
+          </a>
           <Button
             onClick={() => navigate('/anime/one-piece-dub')}
             paddingY={6}

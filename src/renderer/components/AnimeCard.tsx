@@ -42,9 +42,9 @@ export function AnimeCard({ data, search = false }: any) {
             alignItems: 'center',
             gap: '10px',
             color: 'white',
-            width: '280px',
+            // width: '280px',
             minHeight: '400px',
-            minWidth: '250px',
+            // minWidth: '250px',
           }}
           padding={2}
         >

@@ -16,17 +16,18 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { API_URL } from '../constants';
 import LoadingPage from './Loading';
 
 // In this page all anime episode will be listed
 const AnimePage = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = React.useState(true);
   const [data, setData] = React.useState<any>({});
   const [animeData, setAnimeData] = React.useState<any>({});
-
+  const [isError, setIsError] = React.useState(false);
   useEffect(() => {
     window.scrollTo(0, 0);
     async function fetchAnime() {
@@ -35,28 +36,12 @@ const AnimePage = () => {
         setData(data);
       } catch (error: any) {
         console.log(error.message);
+        setIsError(true);
       } finally {
         setLoading(false);
       }
     }
-
-    // async function fetchDetails() {
-    //   try {
-    //     const animeDetails = await axios.get(
-    //       `https://backend1-dv9d.onrender.com/tmdb?query=${data.title}`,
-    //     );
-    //     setAnimeData(animeDetails.data.data);
-    //   } catch (error: any) {
-    //     console.log(error.message);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // }
-    // if (data.title) {
-    //   fetchDetails();
-    // } else {
     fetchAnime();
-    // }
   }, [id]);
 
   const capitalizeText = (text: string) => {
@@ -65,6 +50,11 @@ const AnimePage = () => {
 
   if (loading) {
     return <LoadingPage />;
+  }
+
+  if (isError) {
+    navigate('/');
+    return;
   }
 
   return (
@@ -168,25 +158,27 @@ const AnimePage = () => {
                 Episodes
               </Heading>
               <Box display={'flex'} gap={'10px'} flexWrap={'wrap'}>
-                {data.episodes.map((ep: any, index: number) => {
-                  return (
-                    <Link to={`/anime/${ep.id}/watch`} key={index}>
-                      <Button
-                        padding={2}
-                        borderRadius={'8px'}
-                        backgroundColor={'gray.600'}
-                        color={'gray.100'}
-                        boxShadow={'1px 1px 5px #010'}
-                        _hover={{
-                          backgroundColor: 'gray.700',
-                          color: 'gray.100',
-                        }}
-                      >
-                        {ep.number}
-                      </Button>
-                    </Link>
-                  );
-                })}
+                {data.episodes
+                  .sort((a: any, b: any) => a.number - b.number)
+                  .map((ep: any, index: number) => {
+                    return (
+                      <Link to={`/anime/${ep.id}/watch`} key={index}>
+                        <Button
+                          padding={2}
+                          borderRadius={'8px'}
+                          backgroundColor={'gray.600'}
+                          color={'gray.100'}
+                          boxShadow={'1px 1px 5px #010'}
+                          _hover={{
+                            backgroundColor: 'gray.700',
+                            color: 'gray.100',
+                          }}
+                        >
+                          {ep.number}
+                        </Button>
+                      </Link>
+                    );
+                  })}
               </Box>
             </Box>
           </Box>
