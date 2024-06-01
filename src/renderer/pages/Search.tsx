@@ -105,7 +105,10 @@ const SearchPage = () => {
           }}
         />
       ) : (
-        <Flex gap={4} flexWrap={'wrap'}>
+        <Grid 
+        templateColumns="repeat(5, 1fr)"
+        gap={6}
+        >
           {data
             .filter((data: any) =>
               filter === '' ? data : data?.subOrDub === filter,
@@ -113,7 +116,7 @@ const SearchPage = () => {
             .map((data: any, index: number) => {
               return <AnimeCard key={index} data={data} search={false} />;
             })}
-        </Flex>
+        </Grid>
       )}
     </Box>
   );

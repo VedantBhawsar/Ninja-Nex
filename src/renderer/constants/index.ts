@@ -1,5 +1,5 @@
-const production = false;
+const production = true;
 
 export const API_URL = production
-  ? 'https://backend1-dv9d.onrender.com'
+  ? 'https://ninjanex-backend-production.up.railway.app'
   : 'http://localhost:3001';

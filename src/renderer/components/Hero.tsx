@@ -1,10 +1,8 @@
-import { Flex, Box, Text, Heading, Button } from '@chakra-ui/react';
+import { Flex, Box, Text, Button } from '@chakra-ui/react';
 import { Image } from '@chakra-ui/react';
 import Anime from '../assets/anime.png';
-import Logo from '../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
-import { BiArrowFromLeft, BiArrowFromRight } from 'react-icons/bi';
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
+import { FaArrowAltCircleRight } from 'react-icons/fa';
 
 export function HeroSection() {
   const navigate = useNavigate();

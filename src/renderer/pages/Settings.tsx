@@ -34,7 +34,7 @@ const SettingsPage = () => {
               padding: 1,
             }}
           />
-          <Text color={'gray.400'}>Dipraj Girase (Co-Founder) </Text>
+          <Text color={'gray.400'}>Dipraj Girase Sir (Co-Founder - Supporter) </Text>
           <Divider
             orientation="vertical"
             style={{

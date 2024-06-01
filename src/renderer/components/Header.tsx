@@ -1,5 +1,4 @@
-import { Box, Button, Flex, Heading, IconButton, Text } from '@chakra-ui/react';
-import React from 'react';
+import { Box, Flex, Heading, IconButton, Text } from '@chakra-ui/react';
 import { BiSearch } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
@@ -45,31 +44,27 @@ export const Header = () => {
           </Heading>
         </Box>
       </Link>
-      <Flex alignItems={'center'} gap={2}>
-        <Link to={'/recent'}>
-          <Text
-            color={'white'}
-            fontSize={'small'}
-            _hover={{
-              textDecor: 'underline',
-            }}
-          >
-            {' '}
-            Recent
-          </Text>
-        </Link>
-        <Link to={'/popular'}>
-          <Text
-            color={'white'}
-            fontSize={'small'}
-            _hover={{
-              textDecor: 'underline',
-            }}
-          >
-            {' '}
-            Popular
-          </Text>
-        </Link>
+      <Flex alignItems={'center'} gap={5}>
+        <Flex gap={9}>
+          <Link to={'/recent'}>
+            <Text
+              color={'white'}
+              fontSize={'medium'}
+            >
+              {' '}
+              Recent
+            </Text>
+          </Link>
+          <Link to={'/popular'}>
+            <Text
+              color={'white'}
+              fontSize={'medium'}
+            >
+              {' '}
+              Popular
+            </Text>
+          </Link>
+        </Flex>
         <Link to={'/search'}>
           <IconButton
             colorScheme="white"
@@ -80,6 +75,7 @@ export const Header = () => {
               color: 'white',
               border: '0px',
               transition: '0.3s ease-in-out',
+              fontSize: 22
             }}
             _hover={{
               cursor: 'pointer',

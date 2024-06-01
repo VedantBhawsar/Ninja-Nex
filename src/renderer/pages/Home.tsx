@@ -1,11 +1,4 @@
-import {
-  Box,
-  Card,
-  Grid,
-  Heading,
-  Image,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Card, Grid, Heading, Image, Text } from '@chakra-ui/react';
 import React, { useEffect } from 'react';
 import 'swiper/css';
 import { AnimeCard } from '../components/AnimeCard';
@@ -126,9 +119,9 @@ const HomePage = () => {
           </Heading>
           <Grid
             paddingRight={5}
-            templateColumns="repeat(3, 1fr)"
+            templateColumns="repeat(4, 1fr)"
             gap={6}
-            borderRight={'1px solid gray'}
+            borderRight={["none","none","none",'1px solid gray']}
           >
             {recentAnime?.map((data, index) => {
               return <AnimeCard data={data} />;
@@ -222,9 +215,9 @@ const HomePage = () => {
           </Heading>
           <Grid
             paddingRight={5}
-            templateColumns="repeat(3, 1fr)"
+            templateColumns="repeat(4, 1fr)"
             gap={6}
-            borderRight={'1px solid gray'}
+            borderRight={['none', 'none', 'none', '1px solid gray']}
           >
             {popularAnime.map((popular, index) => {
               return <AnimeCard data={popular} />;
@@ -263,9 +256,9 @@ const HomePage = () => {
           </Heading>
           <Grid
             paddingRight={5}
-            templateColumns="repeat(3, 1fr)"
+            templateColumns="repeat(4, 1fr)"
             gap={6}
-            borderRight={'1px solid gray'}
+            borderRight={['none', 'none', 'none', '1px solid gray']}
           >
             {airingAnime.map((airing, index) => {
               return <AnimeCard data={airing} />;

@@ -1,6 +1,7 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import icon from '../../assets/icon.svg';
 import './App.css';
+import "tailwindcss/tailwind.css";
 import { ChakraProvider } from '@chakra-ui/react';
 import Layout from './Layout';
 import { lazy } from 'react';
